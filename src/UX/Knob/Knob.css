@@ -1,0 +1,87 @@
+
+svg.knob {
+    width: 15vh;
+    height: 15vh;
+    margin: 2vh;
+    min-width: 15vh;
+    display: inline-block;
+    border-right-style: groove;
+    border-style: solid dashed solid solid !important;
+    border-width: 0vh 0.5vh 0vh 1.5vh !important;
+    border-left-color: black !important;
+    border-radius:50% !important;
+}
+.knob .dialValue{
+    position:absolute;
+    top:50%;
+    left: 50%;
+    transform:translate(-50%,-50%);
+    pointer-events: none;
+    color: #3e3e3e;
+}
+.knob .roundedBorderLeft{
+    shape-outside: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' id='stroker' viewBox='0 0 50 100' style=' fill: none; stroke: violet; stroke-width:1px%0A'%3E%3Ccircle r='48' cx='50' cy='50'%3E%3C/circle%3E%3C/svg%3E");
+    width:50%;
+    height:100%;
+    float:left;
+    cursor:grab;
+    shape-rendering:geometricPrecision;
+}
+.knob .roundedBorderRight{
+    shape-outside: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' id='stroker' viewBox='0 0 50 100' style=' fill: none; stroke: violet; stroke-width:1px%0A'%3E%3Ccircle r='48' cx='0' cy='50'%3E%3C/circle%3E%3C/svg%3E");
+    width:50%;
+    height:100%;
+    float:right;
+    cursor:grab;
+    shape-rendering: geometricPrecision;
+}
+.knob .radioWheelDent{
+    background:orange;
+}
+.knob .text{
+    /* font-size: 3.9px; */
+    width: 100px;
+    height: 100%;
+    text-align: right;
+    /* line-height: 1.6; */
+    color: white;
+    font-family: 'Lato';
+    -webkit-hyphens: auto;
+    hyphens: auto;
+    padding-top: 3vh;
+    padding: 4vh 0 0 0;
+    /* pointer-events: none; */
+}
+.knob .text p{
+    display: inline-block;
+    background: red;
+    height: 2vh;
+    width: 2vh;
+    border-radius: 50%;
+    margin:0;
+    filter: drop-shadow(2px 4px 6px black) drop-shadow(1px 1px 0px #3f3);
+    cursor:grab;
+    /* pointer-events: none; */
+    position:relative;
+}
+.knob .text p:hover{
+    background:green;
+}
+.knobLabel {
+    -webkit-margin-before: auto;
+    box-sizing: content-box;
+    color: #fff;
+    float: left;
+    font-size: 1.3vh;
+    left: 16%;
+    margin-block-start: auto;
+    position: relative;
+    text-shadow: -1px 1px 1px #000;
+    text-transform: uppercase;
+    top: 67%;
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    z-index: 270;
+    font-size: 0.6rem;
+    /* box-shadow: 1px 1px 16px 0px white; */
+}
