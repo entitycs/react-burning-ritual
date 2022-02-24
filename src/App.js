@@ -1,5 +1,5 @@
 
-import React, { useCallback } from 'react';
+import React from 'react';
 import cozyFire from './cozyfire.jpg';
 import './App.css';
 
@@ -39,44 +39,23 @@ import {inputElement, submitElement} from './UX/input';
   return <ElementView data={gridData} parent={document.getElementById('gridCollection')} />
 }
 
-function initializedInput(inputState, onChange){
-  return inputElement(inputState, onChange)
-}
-function GridFormInput({onSubmit}){
-  return <GridForm
-    input={initializedInput}
-    submit={submitElement}
-    onSubmit={onSubmit} 
-  />
-}
-function onInput (onSubmitToPipe){
-  return (<GridFormInput onSubmit={onSubmitToPipe} />);
-}
 function InputArchitecture({onSubmit}){
-  const onSubmitMemo = useCallback((s) => {console.log("sssss",s); return onSubmit(s)}, [onSubmit]);
   return (
     <details>
       <summary>Submit/Options</summary>
     <OptionPipe 
-      input={onInput}
-      filterSet={allFilters}
-      onOutput={onSubmitMemo} 
+      input={(onSubmitToPipe) => (
+        <GridForm
+        input={inputElement}
+        submit={submitElement}
+        onSubmit={onSubmitToPipe} 
+        />
+      )}
+      filterSet={filterSet}
+      onOutput={onSubmit} 
     />
     </details>
     ); 
-}
-// /**
-//  * inputForm
-//  * 
-//  * @param {*} onSubmitToGrid 
-//  * @returns 
-//  */
-//  function inputForm(onSubmitToGrid){
-//   return <InputArchitecture onSubmit={onSubmitToGrid} />
-// }//inputForm
-
-function allFilters(onFilterChange){
-  return filterSet(onFilterChange);
 }
 
 /**
@@ -87,21 +66,6 @@ function allFilters(onFilterChange){
  */
  function inputForm(onSubmitToGrid){
   return (<InputArchitecture onSubmit={onSubmitToGrid} />);
-  // <details>
-  //   <summary>Submit/Options</summary>
-  // <OptionPipe 
-  //   input={(onSubmitToPipe) => 
-  //     <GridForm
-  //       input={initializedInput}
-  //       submit={submitElement}
-  //       onSubmit={onSubmitToPipe} 
-  //     />
-  //   }
-  //   filterSet={allFilters}
-  //   onOutput={onSubmitToGrid} 
-  // />
-  // </details>
-  // ); 
 }//inputForm
 
 /**
