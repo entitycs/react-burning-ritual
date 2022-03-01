@@ -87,7 +87,7 @@ function parseImages(text, targetArray, todo = []){// any todos should be leaf e
       return text.slice(prevIndex, text.length);
     }
   }
-  return parseGeneric(text, targetArray, /[^ \n]*(\.jpg|\.jpeg|\.png|\.svg|\.gif)[\s\\n\\r]*/gi, {preMatch, match, postMatch});
+  return parseGeneric(text, targetArray, /[^ \n]*(\.jpg|\.jpeg|\.png|\.svg|\.gif|\.webp)[\s\\n\\r]*/gi, {preMatch, match, postMatch});
 }//parseImages
 
 /**
