@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/react-burning-ritual/static/css/main.d10e631b.css",
-    "main.js": "/react-burning-ritual/static/js/main.7f46be85.js",
+    "main.css": "/react-burning-ritual/static/css/main.3edf1f80.css",
+    "main.js": "/react-burning-ritual/static/js/main.1ac1de3b.js",
     "static/js/787.1758b2dd.chunk.js": "/react-burning-ritual/static/js/787.1758b2dd.chunk.js",
     "static/media/cozyfire.jpg": "/react-burning-ritual/static/media/cozyfire.a64e2e2c8f7ba8f1330a.jpg",
     "index.html": "/react-burning-ritual/index.html",
-    "main.d10e631b.css.map": "/react-burning-ritual/static/css/main.d10e631b.css.map",
-    "main.7f46be85.js.map": "/react-burning-ritual/static/js/main.7f46be85.js.map",
+    "main.3edf1f80.css.map": "/react-burning-ritual/static/css/main.3edf1f80.css.map",
+    "main.1ac1de3b.js.map": "/react-burning-ritual/static/js/main.1ac1de3b.js.map",
     "787.1758b2dd.chunk.js.map": "/react-burning-ritual/static/js/787.1758b2dd.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.d10e631b.css",
-    "static/js/main.7f46be85.js"
+    "static/css/main.3edf1f80.css",
+    "static/js/main.1ac1de3b.js"
   ]
 }
