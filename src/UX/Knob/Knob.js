@@ -41,6 +41,51 @@ function Knob({name, r=35, cy=50, cx=50, minValue=10, maxValue=30, defaultValue=
         handle: (value,style) =>{ return style}
     })
 
+    function checkKnobValue(innerValue){
+      if (innerValue > knob.knobMax){
+        innerValue = knob.knobMax;
+      }
+      else if(innerValue < knob.knobMin){
+        innerValue = knob.knobMin;
+      }
+      return {innerValue, value: convertKnobValue(innerValue)};
+    }
+
+    function convertKnobValue(innerValue){
+      return Math.floor((innerValue - knob.knobMin) 
+            
+      // y = ((X - B)*(Vd/Kd)) + F ->| y - F = (X - B) * (Vd/Kd)  ->|  (y - F)/(Vd/Kd) = (X - B)  ->|  (y - F)/(Vd/Kd) + B = X
+
+                   * ((maxValue - minValue) / (knob.knobMax - knob.knobMin))) 
+                   + minValue 
+    }
+
+    function onKnobKey(e){
+      let multiplier;
+      switch(e.key){
+        case "ArrowUp":
+        case "ArrowRight":
+          e.preventDefault();
+          e.stopPropagation();
+          multiplier = 1.01;
+          break;
+        case "ArrowDown":
+        case "ArrowLeft":
+          e.preventDefault();
+          e.stopPropagation();
+          multiplier = 0.99;
+          break;
+        default: break;
+      }
+      let val = checkKnobValue(knob.innerValue * multiplier); 
+      if (!isNaN(multiplier)){
+        setKnob((knob) => {
+          return {...knob, innerValue: val.innerValue, value: val.value}
+        });
+        onChange(FauxEvent(name, val.value));
+      }
+    }
+
     function onValueChange (value){
       setKnob((k) => {
         return {...k, ...value};
@@ -87,20 +132,12 @@ function Knob({name, r=35, cy=50, cx=50, minValue=10, maxValue=30, defaultValue=
           let offset = parseInt(e.nativeEvent.offsetY);
           
           // constrain offset to knob min/max bounds
-          if (offset < knob.knobMin){ 
-            offset = knob.knobMin; 
-          }
-          else if (offset > knob.knobMax){
-            offset = knob.knobMax;
-          }
+          offset = checkKnobValue(offset).innerValue;
+
           setKnob((knob) => {
             // convert knob range to value range
-            let value = Math.floor((knob.innerValue - knob.knobMin) 
-            
-            // y = ((X - B)*(Vd/Kd)) + F ->| y - F = (X - B) * (Vd/Kd)  ->|  (y - F)/(Vd/Kd) = (X - B)  ->|  (y - F)/(Vd/Kd) + B = X
+            let value = convertKnobValue(offset);
 
-                         * ((maxValue - minValue) / (knob.knobMax - knob.knobMin))) 
-                         + minValue 
             return {
                 ...knob, 
                 innerValue: offset, 
@@ -125,7 +162,11 @@ function Knob({name, r=35, cy=50, cx=50, minValue=10, maxValue=30, defaultValue=
               }
             }>
               
-              <p onClick={() => console.log("p click") } style={styleFunc.handle(knob.value, {background: knob.active ? 'red' : knob.hoverInactive ? 'green' : handleColor ? handleColor : 'black'})}></p>
+              <p tabIndex={0} 
+                  onKeyDown={(e) => {
+                    console.log("key", e, knob.innerValue);
+                    onKnobKey(e);
+                  }} onClick={() => console.log("p click") } style={styleFunc.handle(knob.value, {background: knob.active ? 'red' : knob.hoverInactive ? 'green' : handleColor ? handleColor : 'black'})}></p>
             </div>
           </foreignObject>
       </svg>
