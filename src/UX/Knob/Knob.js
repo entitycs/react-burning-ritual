@@ -22,15 +22,17 @@ import './Knob.css';
  * @param {callback} props.onChange - on value changed callback
  */
 function Knob({name, r=35, cy=50, cx=50, minValue=10, maxValue=30, defaultValue=25, label="", onChange, className, styleProps, handleColor}){
-
+    const knobMax = 85;
+    const knobMin = 25;
+    console.log("check", convertValueKnob(250));
     const [knob, setKnob] = useState(
         {
             side: 'right',  // which side of hemisphere knob is pointing
                             // (left|right|both(not yet implemented))
-            innerValue: 50, // knob raw value
-            prevValue: 50,  // knob raw value (no use for this yet)
-            knobMax: 85,    // max raw value
-            knobMin: 25,    // min raw value
+            innerValue: convertValueKnob(defaultValue), // knob raw value
+            prevValue: convertValueKnob(defaultValue),  // knob raw value (no use for this yet)
+            knobMax,    // max raw value
+            knobMin,    // min raw value
             value: defaultValue,    // computed value
             active: false,  // knob is active (adjustable)
             hoverInactive: false // knob inactive but hovered over
@@ -40,6 +42,68 @@ function Knob({name, r=35, cy=50, cx=50, minValue=10, maxValue=30, defaultValue=
         knob: (value,style) =>{ return  style},
         handle: (value,style) =>{ return style}
     })
+
+    /**
+     * convertKnobValue
+     * 
+     * Converts constrained knob inner value to outer value.
+     * 
+     * @param {Number} innerValue 
+     * @returns 
+     */
+    function convertKnobValue(innerValue){
+      if (innerValue > knob.knobMax){
+        innerValue = knob.knobMax;
+      }
+      else if(innerValue < knob.knobMin){
+        innerValue = knob.knobMin;
+      }
+      return {
+        innerValue, 
+        value:  Math.floor((innerValue - knob.knobMin) 
+                  * ((maxValue - minValue) / (knob.knobMax - knob.knobMin))) 
+                  + minValue
+      };
+    }
+
+    /**
+     * convertValueKnob
+     * 
+     * Converts knob outer value to constrained inner value.
+     * 
+     * @param {Number} innerValue 
+     * @returns 
+     */
+    function convertValueKnob(value){
+      let result = (value - minValue)/((maxValue - minValue) / (knobMax - knobMin)) + knobMin;
+      return result < knobMin ? knobMin : (result > knobMax ? knobMax : result);
+    }
+
+    function onKnobKey(e){
+      let multiplier;
+      switch(e.key){
+        case "ArrowUp":
+        case "ArrowRight":
+          e.preventDefault();
+          e.stopPropagation();
+          multiplier = 1.01;
+          break;
+        case "ArrowDown":
+        case "ArrowLeft":
+          e.preventDefault();
+          e.stopPropagation();
+          multiplier = 0.99;
+          break;
+        default: break;
+      }
+      let val = convertKnobValue(knob.innerValue * multiplier); 
+      if (!isNaN(multiplier)){
+        setKnob((knob) => {
+          return {...knob, innerValue: val.innerValue, value: val.value}
+        });
+        onChange(FauxEvent(name, val.value));
+      }
+    }
 
     function onValueChange (value){
       setKnob((k) => {
@@ -80,32 +144,23 @@ function Knob({name, r=35, cy=50, cx=50, minValue=10, maxValue=30, defaultValue=
       onMouseMove={(e)=>{ 
         if (!knob.active){
           return;
-        }
+        } console.log("knob", knob);
         onValueChange({hoverInactive: false});
         
           // get mouse Y offset
           let offset = parseInt(e.nativeEvent.offsetY);
           
           // constrain offset to knob min/max bounds
-          if (offset < knob.knobMin){ 
-            offset = knob.knobMin; 
-          }
-          else if (offset > knob.knobMax){
-            offset = knob.knobMax;
-          }
-          setKnob((knob) => {
-            // convert knob range to value range
-            let value = Math.floor((knob.innerValue - knob.knobMin) 
-            
-            // y = ((X - B)*(Vd/Kd)) + F ->| y - F = (X - B) * (Vd/Kd)  ->|  (y - F)/(Vd/Kd) = (X - B)  ->|  (y - F)/(Vd/Kd) + B = X
+          // & convert knob range to value range
+          offset = convertKnobValue(offset);
 
-                         * ((maxValue - minValue) / (knob.knobMax - knob.knobMin))) 
-                         + minValue 
+          setKnob((knob) => {
+
             return {
                 ...knob, 
-                innerValue: offset, 
+                innerValue: offset.innerValue, 
                 prevValue: knob.innerValue, 
-                value
+                value: offset.value
             }
           });
         }}
@@ -124,8 +179,11 @@ function Knob({name, r=35, cy=50, cx=50, minValue=10, maxValue=30, defaultValue=
                 // transition: 'padding-top 0.2s cubic-bezier(0, 0.98, 0.58, 1) 0s'
               }
             }>
-              
-              <p onClick={() => console.log("p click") } style={styleFunc.handle(knob.value, {background: knob.active ? 'red' : knob.hoverInactive ? 'green' : handleColor ? handleColor : 'black'})}></p>
+              <p tabIndex={0} 
+                  onKeyDown={(e) => {
+                    console.log("key", e, knob.innerValue);
+                    onKnobKey(e);
+                  }} style={styleFunc.handle(knob.value, {background: knob.active ? 'red' : knob.hoverInactive ? 'green' : handleColor ? handleColor : 'black'})}></p>
             </div>
           </foreignObject>
       </svg>
