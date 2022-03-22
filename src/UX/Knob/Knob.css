@@ -58,8 +58,8 @@ svg.knob {
 .knob .text p{
     display: inline-block;
     background: red;
-    height: 2vh;
-    width: 2vh;
+    height: 15%;
+    width: 15%;
     border-radius: 50%;
     margin:0;
     filter: drop-shadow(2px 4px 6px black) drop-shadow(1px 1px 0px #3f3);

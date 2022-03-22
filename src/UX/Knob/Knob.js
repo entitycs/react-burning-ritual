@@ -22,26 +22,25 @@ import './Knob.css';
  * @param {callback} props.onChange - on value changed callback
  */
 function Knob({name, r=35, cy=50, cx=50, minValue=10, maxValue=30, defaultValue=25, label="", onChange, className, styleProps, handleColor}){
-    const knobMax = 85;
-    const knobMin = 25;
-    console.log("check", convertValueKnob(250));
-    const [knob, setKnob] = useState(
-        {
-            side: 'right',  // which side of hemisphere knob is pointing
-                            // (left|right|both(not yet implemented))
-            innerValue: convertValueKnob(defaultValue), // knob raw value
-            prevValue: convertValueKnob(defaultValue),  // knob raw value (no use for this yet)
-            knobMax,    // max raw value
-            knobMin,    // min raw value
-            value: defaultValue,    // computed value
-            active: false,  // knob is active (adjustable)
-            hoverInactive: false // knob inactive but hovered over
-        });
+    const knobMax = 75;
+    const knobMin = 5;
+    const [knob, setKnob] = useState({
+        side: 'right',  // which side of hemisphere knob is pointing
+                        // (left|right|both(not yet implemented))
+        innerValue: convertValueKnob(defaultValue), // knob raw value
+        prevValue: convertValueKnob(defaultValue),  // prev. knob raw value
+        refValue: 0,                                // mousedown reference value
+        knobMax,    // max raw value
+        knobMin,    // min raw value
+        value: defaultValue,    // computed value
+        active: false,  // knob is active (adjustable)
+        hoverInactive: false // knob inactive but hovered over
+    });
 
     const [styleFunc, ] = useState(styleProps || {
         knob: (value,style) =>{ return  style},
         handle: (value,style) =>{ return style}
-    })
+    });
 
     /**
      * convertKnobValue
@@ -79,6 +78,13 @@ function Knob({name, r=35, cy=50, cx=50, minValue=10, maxValue=30, defaultValue=
       return result < knobMin ? knobMin : (result > knobMax ? knobMax : result);
     }
 
+    /**
+     * onKnobKey
+     * 
+     * Keyboard accessibility event handler
+     * 
+     * @param {React.SyntheticEvent} e 
+     */
     function onKnobKey(e){
       let multiplier;
       switch(e.key){
@@ -132,11 +138,11 @@ function Knob({name, r=35, cy=50, cx=50, minValue=10, maxValue=30, defaultValue=
       }
 
       onMouseDown={(e)=>{
-          onValueChange({active: true, hoverInactive: false});
+          onValueChange({refValue: e.nativeEvent.offsetY, active: true, hoverInactive: false});
         }
       }
       onMouseUp={(e) => {
-          onValueChange({active: false, hoverInactive: true});
+          onValueChange({active: false, hoverInactive: true, prevValue: knob.innerValue});
           onChange(FauxEvent(name, knob.value));
         }
       }
@@ -144,22 +150,21 @@ function Knob({name, r=35, cy=50, cx=50, minValue=10, maxValue=30, defaultValue=
       onMouseMove={(e)=>{ 
         if (!knob.active){
           return;
-        } console.log("knob", knob);
+        }
         onValueChange({hoverInactive: false});
-        
+
           // get mouse Y offset
           let offset = parseInt(e.nativeEvent.offsetY);
-          
+
           // constrain offset to knob min/max bounds
           // & convert knob range to value range
-          offset = convertKnobValue(offset);
+          offset = convertKnobValue(knob.prevValue + (offset - knob.refValue));
 
           setKnob((knob) => {
 
             return {
                 ...knob, 
                 innerValue: offset.innerValue, 
-                prevValue: knob.innerValue, 
                 value: offset.value
             }
           });
@@ -175,13 +180,11 @@ function Knob({name, r=35, cy=50, cx=50, minValue=10, maxValue=30, defaultValue=
             <div className="text" style={
               {
                 textAlign: knob.side, 
-                paddingTop: 'calc(' + (knob.innerValue) + 'px - 3vh)'
-                // transition: 'padding-top 0.2s cubic-bezier(0, 0.98, 0.58, 1) 0s'
+                paddingTop: 'calc(' + (knob.innerValue) + 'px)'
               }
             }>
               <p tabIndex={0} 
                   onKeyDown={(e) => {
-                    console.log("key", e, knob.innerValue);
                     onKnobKey(e);
                   }} style={styleFunc.handle(knob.value, {background: knob.active ? 'red' : knob.hoverInactive ? 'green' : handleColor ? handleColor : 'black'})}></p>
             </div>

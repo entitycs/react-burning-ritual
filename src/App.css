@@ -125,7 +125,7 @@ summary {
   display:block;  
   flex-direction: column-reverse;
   align-items: center;
-  font-size: calc(10px + 2vmin);
+  font-size: 1rem;
   color: white;
   background-attachment: fixed;
   justify-content: center;
