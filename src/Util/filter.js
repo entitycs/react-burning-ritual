@@ -1,7 +1,7 @@
 import {Filter} from './Filter/PipeFilter';
 import {parseImages, parseSpans, parseParagraphs} from './Parse/ElementParser';
 import {controllerSetDuration, controllerSetGrid, controllerSetPaper} from '../UX/controller';
-import { numberToHex } from '../UX/Input/Input';
+import { numberToHex } from '../Util/input';
 
 /**
  * filterSet
@@ -72,7 +72,7 @@ import { numberToHex } from '../UX/Input/Input';
         style={(value, state, acc)=>{
           if (!state){
             state = {opacity:{value:210}, bgColor:{value:'#cdae9f'}, color:{value:'#080808'}};
-          }console.log("state", state);
+          }
           let backgroundColor, color;
           if (state.bgColor.value){
             backgroundColor = state.bgColor.value;

@@ -1,4 +1,4 @@
-import {ControlSetInitializer, numberToHex} from './Input/Input';
+import {ControlSetInitializer, numberToHex} from '../Util/input';
 import {Knob} from './Knob/Knob';
 import {GridSizeControl} from '../Util/Grid/Grid';
 

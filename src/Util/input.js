@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { FauxEvent } from '../../Event/FauxEvent';
+import { FauxEvent } from '../Event/FauxEvent';
 
 /**
  * useInitiator (hook) (alpha/concept)

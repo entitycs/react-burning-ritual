@@ -5,7 +5,7 @@
  * @param {*} onChange 
  * @returns 
  */
-const inputElement = (inputState = 'Farwell https://pngimg.com/uploads/2021_year/2021_year_PNG49.png', onChange) => { console.log("a new textarea");
+const inputElement = (inputState = 'Farwell https://pngimg.com/uploads/2021_year/2021_year_PNG49.png', onChange) => { 
  //function inputElement(inputState, onChange){
     return <label key={"inputText"}>
       <textarea key={"inputTextarea"}

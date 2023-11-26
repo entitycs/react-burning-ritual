@@ -1,4 +1,4 @@
-import React, {useReducer, useEffect, useState, useCallback} from 'react';
+import React, {useReducer, useEffect, useLayoutEffect, useState, useCallback} from 'react';
 import {FauxEvent} from '../../Event/FauxEvent';
 import './Grid.css';
 
@@ -113,86 +113,10 @@ function Grid({optionData, form, onSetGrid, children}){
 
 
 /**
- * GridForm
  * 
- * Input is cleared on every submission.  The input preview 
- * remains accessible, however, allowing for multiple submissions
- * of the "previous" value.
- * 
- * @typedef {{inputData: *, inputPreview: *}} GridInputState
- * @typedef {{type:string, value: React.SyntheticEvent}} GridInput
- * 
- * @param {{
- *   input: {type: string, value: React.SyntheticEvent}
- * }} props
- * @returns {React.ComponentElement}
- * 
- * @param {React.JSXElementConstructor} props.submit 
- * @param {React.JSXElementConstructor} props.onSubmit 
+ * @param {*} param0 
+ * @returns 
  */
-function GridForm({input, submit, onSubmit}){
-
-  const [inputState, inputDispatch] = useReducer(
-    onSetInput,
-    {inputData:"", inputPreview:""}
-  );
-
-  const { inputData, inputPreview } = inputState;
-
-  /**
-   * onSetInput
-   * 
-   * Reducer for input state (data + preview)
-   * 
-   * @param{GridInputState} inputState - input state
-   * @param {GridInput} input - input type and update event
-   * @returns {GridInputState} input state after update
-   */
-  function onSetInput(inputState, input){
-    let result = {};
-    switch(input.type){
-      case "input":
-        result = {inputData: input.value.target.value, inputPreview: input.value.target.value};
-        break;
-      case "submit":
-        result = {inputData: input.value.target.value, inputPreview: inputState.inputPreview};
-        break;
-      default:
-        result = {inputData: inputState.inputData, inputPreview: inputState.inputPreview};
-        break;
-    }
-    return result;  
-  }
-
-  /**
-   * _onSubmit
-   * 
-   * @param {React.SyntheticEvent} e 
-   */
-  function _onSubmit(e){
-    e.preventDefault();
-    e.stopPropagation();
-    inputDispatch({value: e, type: "submit"});
-    onSubmit(inputPreview);
-  }
-
-  /**
-   * _onInput
-   * 
-   * @param {React.SyntheticEvent} e 
-   */
-  function _onInput(e){
-    inputDispatch({value: e, type: "input"});
-  }
-
-  return (
-    <form>
-    {input(inputData, _onInput)}
-    {submit(_onSubmit)}
-    </form>
-  )
-}//GridForm
-
 function GridSizeControl({onChange, className, defaultSize}){
 
   const [size, setSize] = useState(defaultSize);
@@ -248,10 +172,7 @@ function GridSizeControl({onChange, className, defaultSize}){
           {maxGrid.map(n => maxGrid.map(m => 
             <div 
               key={(_gridMax * (n - 1) + (m - 1)).toString()} 
-              className={"gridOptSignifier " + (size.x >= m && size.y >= n ? '' : 'oob')} 
-              // style={{backgroundColor: (size.x >= m && size.y >= n ? '#46c04d' : 'transparent'),
-              //  borderColor: (size.x < m || size.y < n ? 'white' : 'blue')}}
-            >
+              className={"gridOptSignifier " + (size.x >= m && size.y >= n ? '' : 'oob')} >
             </div>
           ))}
         </section>
@@ -265,4 +186,4 @@ function GridSizeControl({onChange, className, defaultSize}){
   ]
 }//GridSizeControl
 
-export {Grid, GridForm, GridSizeControl};
+export {Grid, GridSizeControl};
