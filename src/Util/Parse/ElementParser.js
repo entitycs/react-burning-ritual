@@ -80,7 +80,7 @@ function parseImages(text, targetArray, todo = []){// any todos should be leaf e
     return text.slice(prevIndex, matchIndex - 1);
   };
   let match = (prevIndex, matchIndex, matchLength) => {
-    return <img key={matchIndex} style={{maxWidth:'100%'}} className={"darkening"} src={text.slice(matchIndex, matchIndex + matchLength)} />;
+    return <img alt={"burningItemImg"} key={matchIndex} style={{maxWidth:'100%'}} className={"darkening"} src={text.slice(matchIndex, matchIndex + matchLength)} />;
   };
   let postMatch = (prevIndex, matchIndex, matchLength) => {
     if (prevIndex < text.length){
@@ -105,12 +105,12 @@ function parseParagraphs(text, targetArray, todo = {}){
   }
   let preMatch = (prevIndex, matchIndex, matchLength) => {
     if (matchIndex === prevIndex)
-      return <br />
+      return <br  key={matchIndex + "spaceAbove"}/>
     else return null;
   };
   let match = (prevIndex, matchIndex, matchLength) => {
     if (prevIndex === matchIndex){
-      return <br />
+      return <br key={matchIndex + "spaceBelow"}/>
     }
     else {
       return <p key={matchIndex}>{parseChildren(text.slice(prevIndex, matchIndex), [], todo)}</p>;
@@ -118,7 +118,7 @@ function parseParagraphs(text, targetArray, todo = {}){
   };
   let postMatch = (prevIndex, matchIndex, matchLength) => {
     if (prevIndex < text.length){
-      return <p>{parseChildren(text.slice(prevIndex, text.length), [], todo)}</p>
+      return <p  key={matchIndex}>{parseChildren(text.slice(prevIndex, text.length), [], todo)}</p>
     }
   }
   return parseGeneric(text, targetArray, /(\n|\r)/gi, {preMatch, match, postMatch});

@@ -1,4 +1,4 @@
-import React, {useReducer, useEffect, useLayoutEffect, useState, useCallback} from 'react';
+import React, {useReducer, useEffect, useState, useCallback} from 'react';
 import {FauxEvent} from '../../Event/FauxEvent';
 import './Grid.css';
 
@@ -59,15 +59,15 @@ function Grid({optionData, form, onSetGrid, children}){
     checkSize(lenY, lenX);
     let grid = [];
     let keyId = 0;
-    let xMult = 100/lenX;
-    let yMult = 100/lenY;
+    let xMult = 100/lenX;//rem
+    let yMult = 100/lenY;//rem
     for(var y = 0; y < lenY; y++){
       let gridRow = [];
       for(var x = 0; x < lenX; x++){
         gridRow.push({
           keyId: keyId,
-          top: y * yMult,
-          left: x * xMult,
+          top: y * yMult,//lenY
+          left: x * xMult,//lenX
           occupants: [] // may change from array to single value in near future
         });
         keyId++;
@@ -136,8 +136,8 @@ function GridSizeControl({onChange, className, defaultSize}){
    * @param {string} name 
    * @param {React.SyntheticEvent} e 
    */
-  function onLocalChange(e){ console.log("changing", e);
-    let value = Number(e.target.value);console.log(e.target.value);
+  function onLocalChange(e){
+    let value = Number(e.target.value);
     if (e.target.name === 'yLength'){
       setSize((s) => {return{...s, y: Math.abs(value) % (_gridMax + 1)}});
     }else if (e.target.name === 'xLength'){

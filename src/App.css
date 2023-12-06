@@ -57,6 +57,7 @@ textarea {
   background-color: beige;
   padding: 0.2rem 1.2rem;
   min-width: 20vw;
+  width:90vw;
   min-height: 5rem;
   display: inline-block;
   color: #6f6c89;
@@ -95,22 +96,19 @@ summary {
 }
 
 #gridCollection{
-  display: flex;
-  flex-wrap: wrap;
-  min-height: 96vh;
+  display: block;
+  min-height: 93vh;
   max-height: 100vh;
-  align-content: space-around;
   contain: layout;
-  flex-direction: row-reverse;
-  /* flex-flow: column-reverse; */
-  justify-content: center;
-  overflow-x: clip;
-  overflow-y: scroll;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  resize:vertical;
+  margin:auto;
+  border-right: 2px solid orange;
 }
 #gridCollection span{
   display: flow-root !important;
 }
-
 
 .App {
   text-align: center;
@@ -136,6 +134,10 @@ summary {
 
 
 .burningItem{
+  pointer-events:all;
+}
+
+.burningItem > * {
   pointer-events:none;
 }
 .container{
@@ -358,12 +360,12 @@ summary {
     opacity:1;
   }
   20%  { 
-    filter: invert(1) blur(5px) brightness(1.2) saturate(1) sepia(0.65) contrast(5.0); 
+    filter: invert(0.3) blur(5px) brightness(1.2) saturate(1) sepia(0.65) contrast(5.0); 
     visibility:visible;
     opacity:1;    
   }
 	25% { 
-    filter: invert(1) blur(5.92893px) brightness(1.4221) saturate(0.54132) sepia(0.725042) contrast(3.10528);
+    filter: invert(0.5) blur(5.92893px) brightness(1.4221) saturate(0.54132) sepia(0.725042) contrast(3.10528);
     visibility:visible;
     opacity:1; 
     mix-blend-mode:normal;

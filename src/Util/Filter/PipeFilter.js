@@ -23,24 +23,26 @@ import React, { useState } from 'react';
  * @param {onUpdateFilterSet} props.onFilterChange  - callback for the case changes are made to the
  *                                                    Filter (via a controller)
  */
-function Filter({name, style, event, content, controllerSet, onFilterChange}){
+function Filter({ name, style, event, content, controllerSet, onFilterChange }) {
 
-/**
- * Assign the project to an employee.
- * @param {React.SyntheticEvent} e - onChange event (or FauxEvent)
- * @param {string} e.target.value - updated value.
- * @param {string} e.target.name - name of controller with update.
- */
-    function onChange(e, once = false){
-      let result = {};
-      result[e.target.name] = {value: e.target.value, once};
-      onFilterChange(result);
-    }
-  
-    return (
-        (controllerSet) ? controllerSet(onChange) : ""
-    );
-  }// Filter
+
+  /**
+   * Assign the project to an employee.
+   * @param {React.SyntheticEvent} e - onChange event (or FauxEvent)
+   * @param {string} e.target.value - updated value.
+   * @param {string} e.target.name - name of controller with update.
+   */
+  function onChange(e, once = false) {
+    let result = {};
+    result[e.target.name] = { value: e.target.value, once };
+    onFilterChange(result);
+  }
+
+  return (
+    (controllerSet) ? controllerSet(onChange) : ""
+  );
+}// Filter
+
 /**
  * OptionPipe
  * 
@@ -60,44 +62,37 @@ function Filter({name, style, event, content, controllerSet, onFilterChange}){
  * @param {callback} props.onOutput     - usually a callback expecting output from 
  *                                        the input component.
  */
-function OptionPipe({filterSet, input, onOutput}){
-
+function OptionPipe({ filterSet, input, onOutput }) {
   const [valueState, setValueState] = useState({});
-  const [filter, ] = useState(filterSet(onUpdateFilterSet));
+  const [filter,] = useState(filterSet(onUpdateFilterSet));
 
-  /**
-   * onSubmitToPipe
-   * 
-   * @param {*} value 
-   */
-  function onSubmitToPipe(value){
+  function onSubmitToPipe(value) {
 
     let element = {
-      style: filter.reduce((acc, f) => (
-        f && f.props.style ? {...acc, ...f.props.style(value, valueState, acc)} : acc
-      ), {}),
       event: filter.reduce((acc, f) => (
-        f && f.props.event ? {...acc, ...f.props.event(value, valueState, acc)} : acc
+        f && f.props.event ? { ...acc, ...f.props.event(value, valueState, acc) } : acc
       ), {}),
       content: filter.reduce((acc, f) => (
         f && f.props.content ? f.props.content(value, valueState, acc) : acc
-      ), ""),
+      ), []),
+      style: filter.reduce((acc, f) => (
+        f && f.props.style ? { ...acc, ...f.props.style(value, valueState, acc) } : acc
+      ), {}),
     }
+
     onOutput(element);
 
     // clear out (one-time) events.  This is allowed so that, for example, we do not attempt
     // re-building a Grid component on every grid element update render after a grid resizing event.
     setValueState((s) => {
       Object.keys(s).forEach((stateValueKey) => {
-        if (s[stateValueKey].once){
+        if (s[stateValueKey].once) {
           delete (s[stateValueKey]);
         }
-      });
-      return {...s};
+      }); return { ...s };
     })
   }// onSubmitToPipe
 
-  
   /**
    * onUpdateFilterSet
    * 
@@ -106,9 +101,9 @@ function OptionPipe({filterSet, input, onOutput}){
    * @param {*} controllerValue.FilterControlName.value - the controller value.
    * @param {boolean} controllerValue.FilterControlName.once - if true, controller state is removed from filter after first use.
    */
-  function onUpdateFilterSet(controllerValue){
-    setValueState((s) => { 
-      return {...s, ...controllerValue};
+  function onUpdateFilterSet(controllerValue) {
+    setValueState((s) => {
+      return { ...s, ...controllerValue };
     })
   }
 
@@ -120,5 +115,4 @@ function OptionPipe({filterSet, input, onOutput}){
   );
 }//OptionPipe
 
-
-  export {OptionPipe, Filter};
+export { OptionPipe, Filter };

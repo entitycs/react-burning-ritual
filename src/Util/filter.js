@@ -1,7 +1,7 @@
 import {Filter} from './Filter/PipeFilter';
+import {numberToHex} from '../Util/input.js';
 import {parseImages, parseSpans, parseParagraphs} from './Parse/ElementParser';
-import {controllerSetDuration, controllerSetGrid, controllerSetPaper} from '../UX/controller';
-import { numberToHex } from '../Util/input';
+import {controllerSetDuration, controllerSetGrid, controllerSetPaper, controllerSetFont} from '../UX/controller.js';
 
 /**
  * filterSet
@@ -11,19 +11,14 @@ import { numberToHex } from '../Util/input';
  */
  function filterSet(onFilterChange){
     return [
-      // <Filter key={"contentPassthrough"} 
-      //   content={(value, acc) => {
-      //     return value
-      //   }
-      // } />,
       <Filter key={"textParsing"}
-        content={(value, acc) => {
-          if (!value) value = 'Farewell https://pngimg.com/uploads/2021_year/2021_year_PNG49.png';
-          let content = [];
+        content={(value, state, acc) => {
+          if (!value) value = 'Farewell Twitter https://www.edigitalagency.com.au/wp-content/uploads/new-Twitter-logo-x-black-png.png';
+          let content = acc;//Array.isArray(acc) ? acc : [];//acc || [];
           if (! parseParagraphs(value, content, {img:true})){
             if (! parseSpans(value, content, {img:true})){
               if (! parseImages(value, content, {img:true})){
-              content.push(<p key={"zero"}>{value}</p>);
+              content.push(<p key={Math.random().toString(16) + content.length}>{value}</p>);
               }
             }
           }
@@ -31,7 +26,9 @@ import { numberToHex } from '../Util/input';
         }}
       />,
       <Filter name={"grid"} key={"grid"}
-        event={(value, state, acc) =>{
+        event={(value, state, acc) =>{         
+          console.log("grid event state", state, "value", value, "acc", acc)
+
           if (state && (state.xLength || state.yLength)){
             let newGridOptions = {data:[], option:{}};
             if(state.xLength && !isNaN(state.xLength.value)){
@@ -42,9 +39,10 @@ import { numberToHex } from '../Util/input';
             }
             return {newGrid: {...newGridOptions.option}};
           }else{
-            return {};
+            return {...state, value: value};
           }
         }}
+
         onFilterChange={onFilterChange}
         controllerSet={controllerSetGrid}
       />,
@@ -57,12 +55,13 @@ import { numberToHex } from '../Util/input';
               animationFire: `flameAnim ${state.duration.value}s cubic-bezier(.14,.73,.96,.09) 0s normal forwards`,
             };
           }
+          else return {};
         }} 
         onFilterChange={onFilterChange}
         controllerSet={controllerSetDuration}
       />,
       <Filter name={"pos"} key={"gridPosition"} 
-        style={(value, acc)=>{
+        style={(value, acc)=>{ 
           let rotate = Math.floor(Math.random() * 40) * (Math.floor(Math.random() * 100) %2 === 0 ? -1 : 1);
           return {transform : `rotate(${rotate}deg)`}
         }}
@@ -95,6 +94,15 @@ import { numberToHex } from '../Util/input';
         onFilterChange={onFilterChange}
         controllerSet={controllerSetPaper} 
       />,
+      <Filter name={"fontSize"} key={"fontSize"}
+      style={(value, state, acc) => {
+        let a = {fontSize: (state?.fontSize?.value || 6) + 'em'};
+        return state ? {burningElement: {...state.burningElement || {}, ...a}} : {burningElement: {...a}};
+      }}
+    
+      onFilterChange={onFilterChange}
+      controllerSet={controllerSetFont}
+    />,
     ];
   }//filterSet
 

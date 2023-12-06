@@ -25,7 +25,7 @@ import { filterSet } from "./Util/filter";
 
 // input/submit elements
 //
-import { inputElement, submitElement } from "./UX/input";
+import { inputElement, submitElement } from "./UX/Input.js";
 import { MixedInputForm } from "./UX/Input/MixedInputForm";
 
 //------static functions-------------------------------------------------------//

@@ -5,11 +5,11 @@
  * @param {*} onChange 
  * @returns 
  */
-const inputElement = (inputState = 'Farwell https://pngimg.com/uploads/2021_year/2021_year_PNG49.png', onChange) => { 
+const inputElement = (inputState = 'Farwell Twitter https://www.edigitalagency.com.au/wp-content/uploads/new-Twitter-logo-x-black-png.png', onChange) => { 
  //function inputElement(inputState, onChange){
     return <label key={"inputText"}>
       <textarea key={"inputTextarea"}
-        placeholder="eg: Farewell https://pngimg.com/uploads/2021_year/2021_year_PNG49.png"
+        placeholder="eg: Farewell Twitter https://www.edigitalagency.com.au/wp-content/uploads/new-Twitter-logo-x-black-png.png"
         onChange={onChange}
         value={inputState}
       />
