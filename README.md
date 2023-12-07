@@ -3,6 +3,30 @@
 
  demo: https://entitycs.github.io/react-burning-ritual/
 
+![Burning Ritual UX - Pipe Filter Controller drawio](https://github.com/entitycs/react-burning-ritual/assets/5684374/7e5af7a0-4e35-4226-977b-8a354f4d439e)
+
+# Features
+
+## Pipe & Filter Architecture
+
+Filters can use the state of the item in the pipe, and/or the state of a set of one or more controllers to control the mutators to be applied to the submitted value
+
+## Grid
+
+Just wanted something on the end of the pipe other than a div element.  Dragged elements retain dragged position in grid; grid contents + positions are reset upon changes to the grid size.
+
+## Knob
+
+A novel digital knob component, using a novel trick, and no trig/pi values - can you identify the trick?
+
+## GridSizeControl
+
+Another custom input component; attempts to use advanced styling over 2 native html slider elements - not necessarily the most friendly control, but natively accessible.
+
+## Controller Accessibility
+
+All controls are touch, mouse, and keyboard accessible. 
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
