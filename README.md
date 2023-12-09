@@ -1,9 +1,21 @@
 # react-burning-ritual
- Submit & Forget
 
- demo: https://entitycs.github.io/react-burning-ritual/
+Submit & Let go
 
-![Burning Ritual UX - Pipe Filter Controller drawio](https://github.com/entitycs/react-burning-ritual/assets/5684374/7e5af7a0-4e35-4226-977b-8a354f4d439e)
+> A burning ritual is a ceremony that involves releasing the past. It is often performed on holidays like New Year's Eve. The goal is to let go of negativity, suffering, or pain, and focus on the present. 
+
+> [!TIP]
+> demo: https://entitycs.github.io/react-burning-ritual/
+
+> [!IMPORTANT]
+> [accessibility]
+> 
+> If adding custom controller (input) elements, strive to enable all of the following, at minimum:
+ > - [x] mouse
+ > - [x] touch
+ > - [x] keyboard
+
+![Burning Ritual UX - Pipe Filter Controller drawio](https://github.com/entitycs/react-burning-ritual/assets/5684374/8b2a2866-d408-4fe3-8c39-cd028f0c0ac8)
 
 # Features
 
@@ -17,7 +29,7 @@ Just wanted something on the end of the pipe other than a div element.  Dragged 
 
 ## Knob
 
-A novel digital knob component, using a novel trick, and no trig/pi values - can you identify the trick?
+A digital knob component, using a novel css trick, and no trig/pi values - can you identify the trick?
 
 ## GridSizeControl
 
@@ -28,8 +40,9 @@ Another custom input component; attempts to use advanced styling over 2 native h
 All controls are touch, mouse, and keyboard accessible. 
 
 # Getting Started with Create React App
+<details>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<summary>This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).</summary>
 
 ## Available Scripts
 
@@ -97,3 +110,5 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+</details>
