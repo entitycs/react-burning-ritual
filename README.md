@@ -55,6 +55,74 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
  > - [x] keyboard
 
 ![Burning Ritual UX - Pipe Filter Controller drawio](https://github.com/entitycs/react-burning-ritual/assets/5684374/8b2a2866-d408-4fe3-8c39-cd028f0c0ac8)
+*Testing mermaid flowchart TD (top-down) - currently fails silently, rendering as LR
+```mermaid
+---
+config:
+  flowchart:
+    defaultRenderer: " "
+---
+flowchart TD 
+    done2 --> onSubmit
+    onOutput --> onSubmit.InputArch
+    %% subgraph state0[Reducer Starting State]
+    %%     inputData0[Input Data = '']
+    %%     inputPreview0[Input Preview = '']
+    %% end
+    subgraph key
+        A i0@ --> |per keystroke|B
+        e[/component/]
+        input:::InputClass
+        output:::OutputClass
+    end
+    subgraph result[Result]
+        %% inputData.result[inputData = null]
+        inputPreview.result[inputPreview]
+        inputData.result2[inputData] f1@--> |filter|inputPreview.result[inputPreview]:::OutputClass  
+    end
+    subgraph Reducer
+        Type{InputType}
+        result 
+    end
+    subgraph mif[MixedInputForm]
+        Reducer
+        input.mif[/input element/]:::InputClass
+        submit.mif[/submit element/]:::SubmitClass
+        %% onSubmit.mif[onSubmit] 
+        %% state0
+        input.mif i1@--> Type i2@--- |input|inputData.result2
+        submit.mif --> Type --- |submit| done2
+        inputPreview.result --- |submit|done2[\onSubmit/]:::SubmitClass
+    end
+    subgraph OptionPipe
+        input.OptionPipe:::InputClass
+        filterSet
+        onOutput:::OutputClass
+        onSubmit[(onSubmitToPipe)]
+    end
+
+    subgraph input.OptionPipe[input]
+        mif
+    end
+    subgraph InputArchitecture
+        onSubmit.InputArch[\onSubmit/]:::SubmitClass
+        OptionPipe
+    end
+        %% onSubmit --> state0
+
+    f1@{ animate: true }
+    %% f2@{ animate: true }
+    %% f3@{ animate: true }
+    class i0,f1,f2,f3,i1,i2 animate
+    class f2,f3 Lime
+    %% class f1 Red
+    classDef animate stroke-dasharray: 9,5,stroke-dashoffset: 900,animation: dash 25s linear infinite,stroke:#3c4D7c;
+    classDef InputClass stroke-width:1px, stroke-dasharray:none, stroke:#734D3C, fill:#a2b8f3, color:#000000 
+    classDef OutputClass stroke-width:1px, stroke-dasharray:none, stroke:#3c4D7c, fill:#a3dd5c, color:#222222 
+    classDef SubmitClass stroke-width:2px, stroke-dasharray:none, stroke:#ff5555, fill:#000000, color:#ffffff
+    classDef Lime stroke:#88ff88
+    classDef Red stroke-width:2px,stroke:#ff5555
+```
 
 # Features
 
