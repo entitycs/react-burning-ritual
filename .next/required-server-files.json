@@ -59,7 +59,14 @@
       "dangerouslyAllowSVG": false,
       "contentSecurityPolicy": "script-src 'none'; frame-src 'none'; sandbox;",
       "contentDispositionType": "attachment",
-      "remotePatterns": [],
+      "remotePatterns": [
+        {
+          "protocol": "https",
+          "hostname": "images.gr-assets.com",
+          "port": "",
+          "pathname": "/authors/**"
+        }
+      ],
       "unoptimized": false
     },
     "devIndicators": {
@@ -98,7 +105,7 @@
         "transform": "lodash/{{member}}"
       }
     },
-    "outputFileTracingRoot": "/mnt/e/reactDev",
+    "outputFileTracingRoot": "/home/entitycx/reactDev",
     "experimental": {
       "useSkewCookie": false,
       "cacheLife": {
@@ -287,10 +294,10 @@
     "bundlePagesRouterDependencies": false,
     "configFileName": "next.config.mjs",
     "turbopack": {
-      "root": "/mnt/e/reactDev"
+      "root": "/home/entitycx/reactDev"
     }
   },
-  "appDir": "/mnt/e/reactDev",
+  "appDir": "/home/entitycx/reactDev",
   "relativeAppDir": "",
   "files": [
     ".next/routes-manifest.json",
@@ -300,6 +307,8 @@
     ".next/server/functions-config-manifest.json",
     ".next/server/middleware-manifest.json",
     ".next/server/middleware-build-manifest.js",
+    ".next/server/middleware-react-loadable-manifest.js",
+    ".next/react-loadable-manifest.json",
     ".next/server/app-paths-manifest.json",
     ".next/app-path-routes-manifest.json",
     ".next/app-build-manifest.json",

@@ -28,11 +28,9 @@ function ElementView({ data, parent }) {
     }
     if (thisParent) {
       thisParent.appendChild(domEl);
-      console.log("Appended portal container to parent:", thisParent);
     }
     return () => {
       thisParent?.removeChild(domEl);
-      console.log("Removed portal container from parent:", thisParent);
     };
   }, [thisParent, domEl])
 

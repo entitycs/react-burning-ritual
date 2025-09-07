@@ -27,7 +27,6 @@ function filterSet(onFilterChange) {
     />,
     <Filter name={"grid"} key={"grid"}
       event={(value, state, acc) => {
-        console.log("grid event state", state, "value", value, "acc", acc)
 
         if (state && (state.xLength || state.yLength)) {
           let newGridOptions = { data: [], option: {} };

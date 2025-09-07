@@ -68,8 +68,16 @@ details span:has([open]) {
 
 details:open {
   opacity: 1;
-  height: 50vh;
-  transition: height 3s;
+  height: 100%;
+  max-height: 8vh;
+  transition: height 3s, max-height 3s;
+}
+
+details.openManually {
+  opacity: 1;
+  height: 100%;
+  max-height: 80vh;
+  transition: height 3s, max-height 3s;
 }
 
 select {

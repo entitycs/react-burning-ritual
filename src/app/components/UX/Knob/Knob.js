@@ -50,7 +50,6 @@ function Knob({ name, r = 35, cy = 50, cx = 50, minValue = 10, maxValue = 30, de
 
   /* using quadrants to calculate relative velocity delta */
   function getKnobQuadrant(offset) {
-    console.log("offsets: x: " + offset.x + " y: " + offset.y);
     let quad = 1; //topright, botright, botleft, topleft
     if (offset.y >= 50)
       if (offset.x >= 50)
@@ -58,7 +57,6 @@ function Knob({ name, r = 35, cy = 50, cx = 50, minValue = 10, maxValue = 30, de
       else quad = 3;
     else if (offset.x < 50)
       quad = 4;
-    console.log("quad: " + quad);
     return quad;
   }
 

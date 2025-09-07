@@ -812,11 +812,9 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$
         }
         if (thisParent) {
             thisParent.appendChild(domEl);
-            console.log("Appended portal container to parent:", thisParent);
         }
         return ()=>{
             thisParent?.removeChild(domEl);
-            console.log("Removed portal container from parent:", thisParent);
         };
     }, [
         thisParent,
@@ -826,7 +824,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$
             burningItem: item
         }, item.key, false, {
             fileName: "[project]/src/app/components/Element/ElementView.js",
-            lineNumber: 40,
+            lineNumber: 38,
             columnNumber: 40
         }, this)), thisParent) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
         className: "welcome",
@@ -834,14 +832,14 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$
             "Nothing burning.",
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
                 fileName: "[project]/src/app/components/Element/ElementView.js",
-                lineNumber: 41,
+                lineNumber: 39,
                 columnNumber: 49
             }, this),
             "Open the Submit/Options section below to get started."
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/components/Element/ElementView.js",
-        lineNumber: 41,
+        lineNumber: 39,
         columnNumber: 8
     }, this);
 }
@@ -913,14 +911,14 @@ function getNextKeyId(gridState) {
     return gridAtKey.keyId;
 }
 /**
-  * gridKey
-  * 
-  * Sets the grid keys and positions based on grid size
-  * 
-  * @param {number} lenX 
-  * @param {number} lenY 
-  * @returns {GridKey} Metadata for each grid item slot
-  */ function _gridKey(lenX, lenY) {
+ * gridKey
+ * 
+ * Sets the grid keys and positions based on grid size
+ * 
+ * @param {number} lenX 
+ * @param {number} lenY 
+ * @returns {GridKey} Metadata for each grid item slot
+ */ function _gridKey(lenX, lenY) {
     checkSize(lenY, lenX);
     let grid = [];
     let keyId = 0;
@@ -959,7 +957,7 @@ function getNextKeyId(gridState) {
             newGridData = [];
             gridLengthY = itemAdded.event.newGrid.length;
             gridLengthX = itemAdded.event.newGrid[0].length;
-            console.log("newGridKey", gridLengthY * gridLengthX);
+        // console.log("newGridKey", gridLengthY * gridLengthX);
         }
     }
     newGridKey = newGridKey || [
@@ -1424,12 +1422,10 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$
         }
     });
     /* using quadrants to calculate relative velocity delta */ function getKnobQuadrant(offset) {
-        console.log("offsets: x: " + offset.x + " y: " + offset.y);
         let quad = 1; //topright, botright, botleft, topleft
         if (offset.y >= 50) if (offset.x >= 50) quad = 2;
         else quad = 3;
         else if (offset.x < 50) quad = 4;
-        console.log("quad: " + quad);
         return quad;
     }
     /**
@@ -1437,17 +1433,6 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$
    * @param {x,y coords} offset 
    * @returns 
    */ function getKnobMultiplier(offset) {
-        // const rect = e.currentTarget.getBoundingClientRect();
-        // const cx = rect.width / 2;
-        // const cy = rect.height / 2;
-        // const dx = offset.x - cx;
-        // const dy = offset.y - cy;
-        // const distance = Math.sqrt(dx * dx + dy * dy);
-        // return Math.min(1, Math.sqrt(
-        //   Math.pow(offset.x - 50, 2) +
-        //   Math.pow(offset.y - 50, 2)
-        // ) / 50);//maxRadius
-        // return ((Math.abs(50 - offset.y) / 2 + Math.abs(50 - offset.x) / 2)) / 50;
         return Math.sqrt(Math.pow(knob.initTouchValue.x - 50, 2) + Math.pow(knob.initTouchValue.y - 50, 2)) / 50;
     }
     /**
@@ -1580,79 +1565,6 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$
             });
             onChange((0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$Event$2f$FauxEvent$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FauxEvent"])(name, knob.value));
         },
-        // onPointerMove={(e) => {
-        //   if (!knob.active) {
-        //     return;
-        //   }
-        //   onValueChange({ hoverInactive: false });
-        //   let offset = { y: e.nativeEvent.offsetY, x: e.nativeEvent.offsetX };
-        //   let multiplier = getKnobMultiplier(offset);
-        //   let quad = getKnobQuadrant(offset);
-        //   let velocity = {
-        //     x: offset.x - knob.refValue.x,
-        //     y: offset.y - knob.refValue.y,
-        //     xDominant: false
-        //   };
-        //   if (Math.abs(velocity.x) > Math.abs(velocity.y)) {
-        //     velocity.xDominant = true;
-        //   }
-        //   else if (Math.abs(velocity.x) === Math.abs(velocity.y)) {
-        //     velocity.y = 1.5 * velocity.y;
-        //   }
-        //   switch (quad) {
-        //     case 2:
-        //       velocity.x = -velocity.x;
-        //       break;
-        //     case 3:
-        //       velocity = { ...velocity, x: -velocity.x, y: -velocity.y };
-        //       break;
-        //     case 4:
-        //       velocity.y = -velocity.y;
-        //       break;
-        //     default: break;
-        //   }
-        //   // --- New: radial distance factor ---
-        //   const rect = e.currentTarget.getBoundingClientRect();
-        //   const localX = e.clientX - rect.left;
-        //   const localY = e.clientY - rect.top;
-        //   const cx = rect.width / 2;
-        //   const cy = rect.height / 2;
-        //   const dx = localX - cx;
-        //   const dy = localY - cy;
-        //   const distance = Math.sqrt(dx * dx + dy * dy);
-        //   const localMultiplier = 0.3;
-        //   // Normalize distance so that 1.0 = edge of knob
-        //   const maxRadius = Math.min(cx, cy);
-        //   const radialFactor = localMultiplier * distance / maxRadius;
-        //   const now = performance.now();
-        //   const lastTs = knob._ts ?? now;
-        //   const dt = Math.max(0, now - lastTs);
-        //   const TAU_MS = 80;
-        //   const alpha = 1 - Math.exp(-dt / TAU_MS);
-        //   // Clamp to avoid extreme jumps if pointer goes way outside
-        //   const clampedRadial = 1 + Math.max(0.001, Math.min(radialFactor, 1.5));
-        //   const clampedMultiplier = Math.max(2, multiplier);
-        //   const mixedMultiplier = Math.max(0.5, (clampedRadial + clampedMultiplier) * 0.5);
-        //   let knobValue;
-        //   if (velocity.xDominant) {
-        //     knobValue = convertKnobValue(knob.innerValue + velocity.x * mixedMultiplier);
-        //   } else {
-        //     knobValue = convertKnobValue(knob.innerValue + velocity.y * mixedMultiplier);
-        //   }
-        //   const targetInner = Number.isFinite(knobValue?.innerValue) ? knobValue.innerValue : knob.innerValue;
-        //   const smoothedInner = knob.innerValue + (targetInner - knob.innerValue) * alpha;
-        //   // const smoothedInner = targetInner;//knob.innerValue + (targetInner - knob.innerValue) * alpha;
-        //   console.log("vel: " + velocity.x, velocity.y, "smoothed: " + smoothedInner, "mult: " + multiplier, "clamped: " + clampedRadial);
-        //   setKnob((prev) => ({
-        //     ...prev,
-        //     innerValue: smoothedInner,
-        //     value: knobValue.value,
-        //     refValue: { x: offset.x, y: offset.y },
-        //     _ts: now
-        //   }));
-        // }
-        // }
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         onPointerMove: (e)=>{
             if (!knob.active) {
                 return;
@@ -1674,11 +1586,8 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$
                 xDominant: false
             };
             let knobMultiplier = getKnobMultiplier(offset);
-            // let offset = { y: (e.nativeEvent.offsetY), x: (e.nativeEvent.offsetX) };
             let multiplier = 1.17 * Math.pow(Math.min(1.5, knobMultiplier), 2.5);
-            // 0.5 * Math.pow(knobMultiplier, 2.7);
-            // 0.05 * Math.pow(getKnobMultiplier(offset), 2);
-            console.log(`multiplier: ${multiplier}, knobMultiplier: ${knobMultiplier}`);
+            // console.log(`multiplier: ${multiplier}, knobMultiplier: ${knobMultiplier}`);
             if (Math.abs(velocity.x) > Math.abs(velocity.y)) {
                 velocity.xDominant = true;
             } else if (Math.abs(velocity.x) === Math.abs(velocity.y)) {
@@ -1730,7 +1639,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$
                 cx: cx
             }, void 0, false, {
                 fileName: "[project]/src/app/components/UX/Knob/Knob.js",
-                lineNumber: 356,
+                lineNumber: 250,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
@@ -1743,7 +1652,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$
                 cx: cx
             }, void 0, false, {
                 fileName: "[project]/src/app/components/UX/Knob/Knob.js",
-                lineNumber: 357,
+                lineNumber: 251,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("foreignObject", {
@@ -1760,21 +1669,21 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$
                         children: label
                     }, void 0, false, {
                         fileName: "[project]/src/app/components/UX/Knob/Knob.js",
-                        lineNumber: 359,
+                        lineNumber: 253,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "roundedBorderLeft"
                     }, void 0, false, {
                         fileName: "[project]/src/app/components/UX/Knob/Knob.js",
-                        lineNumber: 360,
+                        lineNumber: 254,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "roundedBorderRight"
                     }, void 0, false, {
                         fileName: "[project]/src/app/components/UX/Knob/Knob.js",
-                        lineNumber: 361,
+                        lineNumber: 255,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1782,7 +1691,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$
                         children: knob ? knob.value : ""
                     }, void 0, false, {
                         fileName: "[project]/src/app/components/UX/Knob/Knob.js",
-                        lineNumber: 362,
+                        lineNumber: 256,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1801,24 +1710,24 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$
                             })
                         }, void 0, false, {
                             fileName: "[project]/src/app/components/UX/Knob/Knob.js",
-                            lineNumber: 369,
+                            lineNumber: 263,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/components/UX/Knob/Knob.js",
-                        lineNumber: 363,
+                        lineNumber: 257,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/components/UX/Knob/Knob.js",
-                lineNumber: 358,
+                lineNumber: 252,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/components/UX/Knob/Knob.js",
-        lineNumber: 169,
+        lineNumber: 153,
         columnNumber: 5
     }, this);
 } //Knob
@@ -2090,7 +1999,6 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$
         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$Util$2f$Filter$2f$PipeFilter$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Filter"], {
             name: "grid",
             event: (value, state, acc)=>{
-                console.log("grid event state", state, "value", value, "acc", acc);
                 if (state && (state.xLength || state.yLength)) {
                     let newGridOptions = {
                         data: [],
@@ -2136,7 +2044,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$
             controllerSet: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$UX$2f$controller$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["controllerSetDuration"]
         }, "fireEffect", false, {
             fileName: "[project]/src/app/components/Util/filter.js",
-            lineNumber: 49,
+            lineNumber: 48,
             columnNumber: 5
         }, this),
         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$Util$2f$Filter$2f$PipeFilter$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Filter"], {
@@ -2150,7 +2058,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$
             onFilterChange: onFilterChange
         }, "gridPosition", false, {
             fileName: "[project]/src/app/components/Util/filter.js",
-            lineNumber: 63,
+            lineNumber: 62,
             columnNumber: 5
         }, this),
         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$Util$2f$Filter$2f$PipeFilter$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Filter"], {
@@ -2193,7 +2101,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$
             controllerSet: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$UX$2f$controller$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["controllerSetPaper"]
         }, "paperEffect", false, {
             fileName: "[project]/src/app/components/Util/filter.js",
-            lineNumber: 70,
+            lineNumber: 69,
             columnNumber: 5
         }, this),
         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$Util$2f$Filter$2f$PipeFilter$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Filter"], {
@@ -2217,7 +2125,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$
             controllerSet: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$UX$2f$controller$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["controllerSetFont"]
         }, "fontSize", false, {
             fileName: "[project]/src/app/components/Util/filter.js",
-            lineNumber: 97,
+            lineNumber: 96,
             columnNumber: 5
         }, this)
     ];
@@ -2383,6 +2291,7 @@ __turbopack_context__.s([
     ()=>GridWrapper
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$Util$2f$Grid$2f$Grid$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/app/components/Util/Grid/Grid.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$Util$2f$Filter$2f$PipeFilter$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/app/components/Util/Filter/PipeFilter.js [app-ssr] (ecmascript)");
 //------views-----------------------------------------------------------------//
@@ -2411,14 +2320,32 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$
 ;
 ;
 ;
+;
+//   return (
+//     <div className={`details ${isOpen ? "openManually" : ""}`}>
+//       <summary onClick={toggleOpen}>{summary}</summary>
+//       <div className="content">{children}</div>
+//     </div>
+//   );
+// }
 function InputArchitecture({ onSubmit }) {
+    const [isOpen, setIsOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
+    const toggleOpen = (e)=>{
+        e.preventDefault();
+        setIsOpen((prev)=>!prev);
+    };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("details", {
+        open: true,
+        className: `details ${isOpen ? "openManually" : ""}`,
+        onClick: (e)=>{
+            toggleOpen(e);
+        },
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("summary", {
                 children: "Submit/Options"
             }, void 0, false, {
                 fileName: "[project]/src/app/components/Element/GridWrapper.js",
-                lineNumber: 27,
+                lineNumber: 42,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$Util$2f$Filter$2f$PipeFilter$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["OptionPipe"], {
@@ -2428,20 +2355,20 @@ function InputArchitecture({ onSubmit }) {
                         onSubmit: onSubmitToPipe
                     }, void 0, false, {
                         fileName: "[project]/src/app/components/Element/GridWrapper.js",
-                        lineNumber: 30,
+                        lineNumber: 45,
                         columnNumber: 21
                     }, void 0),
                 filterSet: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$Util$2f$filter$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["filterSet"],
                 onOutput: onSubmit
             }, void 0, false, {
                 fileName: "[project]/src/app/components/Element/GridWrapper.js",
-                lineNumber: 28,
+                lineNumber: 43,
                 columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/components/Element/GridWrapper.js",
-        lineNumber: 26,
+        lineNumber: 41,
         columnNumber: 9
     }, this);
 }
@@ -2461,7 +2388,7 @@ function GridWrapper() {
             parent: gridElement
         }, void 0, false, {
             fileName: "[project]/src/app/components/Element/GridWrapper.js",
-            lineNumber: 56,
+            lineNumber: 71,
             columnNumber: 13
         }, this);
     };
@@ -2475,7 +2402,7 @@ function GridWrapper() {
             onSubmit: onSubmitToGrid
         }, void 0, false, {
             fileName: "[project]/src/app/components/Element/GridWrapper.js",
-            lineNumber: 66,
+            lineNumber: 81,
             columnNumber: 16
         }, this);
     } //inputForm
@@ -2489,12 +2416,12 @@ function GridWrapper() {
             children: burningElement
         }, void 0, false, {
             fileName: "[project]/src/app/components/Element/GridWrapper.js",
-            lineNumber: 71,
+            lineNumber: 86,
             columnNumber: 13
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/app/components/Element/GridWrapper.js",
-        lineNumber: 70,
+        lineNumber: 85,
         columnNumber: 9
     }, this);
 }

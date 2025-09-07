@@ -1,5 +1,6 @@
 "use client";
 import "../../App.css";
+import { useState } from "react";
 import { Grid } from "../Util/Grid/Grid";
 import { OptionPipe } from "../Util/Filter/PipeFilter";
 //------views-----------------------------------------------------------------//
@@ -21,9 +22,23 @@ import { filterSet } from "../Util/filter";
 import { inputElement, submitElement } from "../UX/input";
 import { MixedInputForm } from "../UX/Input/MixedInputForm";
 import { useGridRef } from "../Context/GridContext";
+
+
+//   return (
+//     <div className={`details ${isOpen ? "openManually" : ""}`}>
+//       <summary onClick={toggleOpen}>{summary}</summary>
+//       <div className="content">{children}</div>
+//     </div>
+//   );
+// }
+
+
 function InputArchitecture({ onSubmit }) {
+    const [isOpen, setIsOpen] = useState(false);
+    const toggleOpen = (e) => { e.preventDefault(); setIsOpen(prev => !prev); }
+
     return (
-        <details>
+        <details open className={`details ${isOpen ? "openManually" : ""}`} onClick={e => { toggleOpen(e); }}>
             <summary>Submit/Options</summary>
             <OptionPipe
                 input={(onSubmitToPipe) => (
