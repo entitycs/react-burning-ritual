@@ -10,21 +10,24 @@ import { useEffect } from 'react';
  */
 function useTouchRef({ touchActive, ref }) {
   useEffect(() => {
-    const onTouchMove = (e) => { if (touchActive) { e.preventDefault(); e.stopPropagation() } };
+    const onTouchMove = (e) => { console.log("onTouchMove"); if (touchActive) { e.preventDefault(); e.stopPropagation() } };
     const onTouchStart = onTouchMove;
-    if (ref) {
+    if (ref?.current) {
       ref.current.addEventListener("touchmove", onTouchMove, { passive: false });
       ref.current.addEventListener("touchstart", onTouchStart, { passive: false });
     }
-    // React docs suggest using copy for cleanup function as original ref object may be unreferencable
-    const refTarget = { ...ref || {} }
+    // const originalTouchAction = ref.current.style.touchAction;
+    // ref.current.style.touchAction = 'none';
 
+    // React docs suggest using copy for cleanup function as original ref object may be unreferencable
+    const target = ref?.current;
     return () => {
-      if (refTarget) {
-        refTarget.current.removeEventListener("touchmove", onTouchMove);
-        refTarget.current.removeEventListener("touchstart", onTouchStart);
+      if (target) {
+        target.removeEventListener("touchmove", onTouchMove);
+        target.removeEventListener("touchstart", onTouchStart);
+        // target.style.touchAction = originalTouchAction;
       }
-    }
+    };
   }, [touchActive, ref])
 }
 

@@ -1,7 +1,7 @@
 "use client";
-import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
-import { useTouchRef } from '../useTouch';
+import { useState, useCallback, useEffect } from 'react';
 import { FauxEvent } from '../../Event/FauxEvent';
+const _gridMax = 6;
 /**
  * 
  * @param {*} param0 
@@ -9,15 +9,17 @@ import { FauxEvent } from '../../Event/FauxEvent';
  */
 function GridSizeControl({ onChange, className, defaultSize }) {
 
-    const _gridMax = 6;
     const [size, setSize] = useState(defaultSize);
-    const [isActive, setIsActive] = useState(false);
-
+    const maxGrid = (() => {
+        let grid = [];
+        for (var i = 1; i <= _gridMax; i++) {
+            grid.push(i);
+        }
+        return grid;
+    })();
 
     const onChangeMemo = useCallback((e) => onChange(e), [onChange]);
-    const controlRef = useRef(null);
-    useTouchRef(isActive, controlRef);
-    const maxGrid = useMemo(() => Array.from({ length: _gridMax }, (_, i) => i + 1), [_gridMax]);
+
     /**
      * onLocalChange
      * 
@@ -49,14 +51,7 @@ function GridSizeControl({ onChange, className, defaultSize }) {
     }, [defaultSize, onChangeMemo]);
 
     return [
-        <label key={"gridSizer"} className={`gridSize ${className}`} ref={controlRef}
-            onPointerDown={e => {
-                setIsActive(true);
-            }}
-            onPointerUp={e => {
-                setIsActive(false);
-            }}
-        >
+        <label key={"gridSizer"} className={`gridSize ${className}`}>
             <p>Grid Size:</p>
             <span className="sliderVertical" >
                 <input name={"yLength"} key={"yLength"} type="range" min={1} max={_gridMax} step={1} value={size.y} onChange={onLocalChange} list="tickmarks"
