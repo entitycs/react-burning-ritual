@@ -27,7 +27,7 @@ import './Knob.css';
 
  */
 function Knob({ name, r = 35, cy = 50, cx = 50, minValue = 10, maxValue = 30, defaultValue = 25, label = "", onChange, className, styleProps, handleColor }) {
-  const knobMax = 75;
+  const knobMax = 62;
   const knobMin = 5;
   const [knob, setKnob] = useState({
     side: 'right',  // which side of hemisphere knob is pointing

@@ -34,7 +34,7 @@ import { useGridRef } from "../Context/GridContext";
 
 
 function InputArchitecture({ onSubmit }) {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(true);
     const toggleOpen = (e) => { e.preventDefault(); setIsOpen(prev => !prev); }
 
     return (
