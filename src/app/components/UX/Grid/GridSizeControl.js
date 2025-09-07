@@ -12,13 +12,7 @@ function GridSizeControl({ onChange, className, defaultSize }) {
     const _gridMax = 6;
     const [size, setSize] = useState(defaultSize);
     const [isActive, setIsActive] = useState(false);
-    // const maxGrid = (() => {
-    //     let grid = [];
-    //     for (var i = 1; i <= _gridMax; i++) {
-    //         grid.push(i);
-    //     }
-    //     return grid;
-    // })();
+
 
     const onChangeMemo = useCallback((e) => onChange(e), [onChange]);
     const controlRef = useRef(null);
