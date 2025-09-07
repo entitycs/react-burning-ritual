@@ -1,6 +1,6 @@
 import { ControlSetInitializer, numberToHex } from '../Util/input';
 import { Knob } from './Knob/Knob';
-import { GridSizeControl } from '../Util/Grid/Grid';
+import { GridSizeControl } from '../UX/Grid/GridSizeControl';
 
 // Controllers
 //-----------------------------------------------------------------------------/
