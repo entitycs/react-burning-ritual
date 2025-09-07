@@ -148,7 +148,6 @@ function parseSpans(text, targetArray, todo = {}) {
   };
   let postMatch = (prevIndex, matchIndex, matchLength) => {
     if (prevIndex < text.length) {
-      console.log("postMatch", prevIndex, text.length);
       return <span>{parseChildren(text.slice(prevIndex, text.length), [], todo)}</span>;
     }
   }

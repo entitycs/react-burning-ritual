@@ -38,8 +38,8 @@ function InputArchitecture({ onSubmit }) {
     const toggleOpen = (e) => { e.preventDefault(); setIsOpen(prev => !prev); }
 
     return (
-        <details open className={`details ${isOpen ? "openManually" : ""}`} onClick={e => { toggleOpen(e); }}>
-            <summary>Submit/Options</summary>
+        <details open className={`details ${isOpen ? "openManually" : ""}`} >
+            <summary onClick={e => { toggleOpen(e); }}>Submit/Options</summary>
             <OptionPipe
                 input={(onSubmitToPipe) => (
                     <MixedInputForm
