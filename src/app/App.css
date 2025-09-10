@@ -74,15 +74,15 @@ details span:has([open]) {
 details:open {
   opacity: 1;
   height: 100%;
-  transition: height 3s, max-height 3s;
-  max-height: 9vh;
+  transition: transform 3s;
+  transform: translateY(80%);
 }
 
 details.openManually {
   height: 100%;
   max-height: 85vh;
-  transition: height 3s, max-height 3s;
-  opacity: 1.0;
+  transition: transform 3s;
+  transform: translateY(0%);
 }
 
 select,
@@ -184,6 +184,7 @@ summary {
 
 .Grid-reducer-holder {
   display: flex;
+  z-index: 11;
 }
 
 .App-link {
@@ -219,10 +220,15 @@ summary {
   align-items: center;
   background: #3f1a1a30;
   backdrop-filter: grayscale(1);
+  /* background: black; */
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
   padding: 1vh 0 1vh 0;
+}
+
+.filterUI:has(.openManually) {
+  background: black;
 }
 
 .filterUI label {
@@ -634,20 +640,115 @@ summary {
 
 .engulfing {
   filter: brightness(-5) blur(40px);
-  animation: smokeAnim 155s cubic-bezier(.14, .73, .96, .09) 0s normal forwards;
+  animation: ember 155s cubic-bezier(.14, .73, .96, .09) 0s normal forwards;
 }
 
 .engulfingSlow {
-  animation: flameAnim 155s cubic-bezier(.14, .73, .96, .09) 0s normal forwards;
+  animation: ember 155s cubic-bezier(.14, .73, .96, .09) 0s normal forwards;
 }
 
 .engulfingFast {
-  animation: letterAnim 155s cubic-bezier(.14, .73, .96, .09) 0s normal forwards;
+  animation: ember 155s cubic-bezier(.14, .73, .96, .09) 0s normal forwards;
   transform: rotate3d(-9, 39, -7, 21deg) perspective(21px);
 }
 
 .darkening {
   animation: photoDarkening 155s cubic-bezier(.14, .73, .96, .09) 0s normal forwards !important;
+}
+
+/* Add shimmering effect */
+@keyframes shimmer {
+  0% {
+    transform: rotate(-1deg) scale(0.98);
+  }
+
+  20% {
+    transform: rotate(1deg) scale(1.04);
+  }
+
+  40% {
+    transform: rotate(-1deg) scale(0.98);
+  }
+
+  60% {
+    transform: rotate(1deg) scale(1.04);
+  }
+
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+/* Add ember particle effect */
+@keyframes ember {
+
+  0%,
+  100% {
+    transform: translate(0, 0), translateZ(-20px);
+    opacity: 0;
+  }
+
+  50% {
+    transform: translate(2px, -2px), translateZ(20px);
+    opacity: 1;
+  }
+}
+
+/* Add more complex smoke plume variations */
+@keyframes smokePuff {
+  0% {
+    transform: scale(0.1);
+    opacity: 1;
+  }
+
+  80% {
+    transform: scale(1.5) rotate(3deg);
+  }
+
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes flicker {
+
+  0%,
+  40%,
+  60%,
+  100% {
+    transform: translateZ(0);
+  }
+}
+
+/* Reduce animation duration */
+.engulfing {
+  animation: smokeAnim 90s cubic-bezier(.14, .73, .96, .09) 0s normal forwards;
+}
+
+/* Combine multiple animations into one */
+@keyframes combinedFlame {
+  0% {
+    transform: scale(0.1);
+    opacity: 1;
+  }
+
+  20% {
+    transform: scale(1.5);
+  }
+
+  40% {
+    transform: scale(1.3) rotate(-5deg);
+  }
+
+  60% {
+    transform: scale(1.2) rotate(3deg);
+  }
+
+  100% {
+    transform: scale(0.1);
+    opacity: 0;
+  }
 }
 
 /*
