@@ -47,8 +47,11 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 > [!IMPORTANT]
 > [accessibility]
+> Steps have been taken towards maximizing accessibility / conforming to a higher-than-required standard.
+> 
+> Cumulative Layout Shift (CLS) score should be maintained under 0.10, including during animations / showing/hiding the submit menu / etc.  see: https://web.dev/articles/cls
 >
-> If adding custom controller (input) elements, strive to enable all of the following, at minimum:
+>  If adding custom controller (input) elements, strive to enable all of the following, at minimum:
  >
  > - [x] mouse
  > - [x] touch
