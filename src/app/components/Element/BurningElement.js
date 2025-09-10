@@ -15,8 +15,8 @@ function BurningElement({ burningItem }) {
     if (pressed) {
       event.preventDefault();
       setPosition({
-        x: position.x + event.movementX,
-        y: position.y + event.movementY
+        x: position.x + 2 * event.movementX,
+        y: position.y + 2 * event.movementY
       })
     }
   }
@@ -38,7 +38,8 @@ function BurningElement({ burningItem }) {
       onPointerDown={onPointerDown}
       onPointerMove={pressed ? onPointerMove : (e) => { }}
       onPointerUp={() => setPressed(false)}
-
+      onPointerLeave={() => setPressed(false)}
+      // onpointer
       style={
         {
           ...item.style.burningElement,
