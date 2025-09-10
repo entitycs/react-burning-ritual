@@ -1,5 +1,5 @@
 "use client";
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo, useRef } from 'react';
 import { FauxEvent } from '../../Event/FauxEvent';
 const _gridMax = 6;
 /**
@@ -10,16 +10,32 @@ const _gridMax = 6;
 function GridSizeControl({ onChange, className, defaultSize }) {
 
     const [size, setSize] = useState(defaultSize);
-    const maxGrid = (() => {
-        let grid = [];
-        for (var i = 1; i <= _gridMax; i++) {
-            grid.push(i);
-        }
-        return grid;
-    })();
+
+    const maxGrid = useMemo(() => Array.from(
+        { length: _gridMax }
+        , (_, i) => i + 1),
+        [_gridMax]
+    );
 
     const onChangeMemo = useCallback((e) => onChange(e), [onChange]);
 
+    const xInputRef = useRef(null);
+    const yInputRef = useRef(null);
+
+    function updateSize(name, rawValue) {
+        const value = Math.abs(Number(rawValue)) % (_gridMax + 1);
+        setSize((prev) => ({
+            ...prev,
+            [name === 'yLength' ? 'y' : 'x']: value
+        }));
+        // Update the corresponding input's value directly using refs
+        if (name === 'xLength' && xInputRef.current) {
+            xInputRef.current.value = value.toString();
+        }
+        if (name === 'yLength' && yInputRef.current) {
+            yInputRef.current.value = value.toString();
+        }
+    }
     /**
      * onLocalChange
      * 
@@ -27,38 +43,50 @@ function GridSizeControl({ onChange, className, defaultSize }) {
      * @param {React.SyntheticEvent} e 
      */
     function onLocalChange(e) {
-        let value = Number(e.target.value);
-        if (e.target.name === 'yLength') {
-            setSize((s) => { return { ...s, y: Math.abs(value) % (_gridMax + 1) } });
-        } else if (e.target.name === 'xLength') {
-            setSize((s) => { return { ...s, x: Math.abs(value) % (_gridMax + 1) } })
-        }
-        return onChangeMemo(e);
+        updateSize(e.target.name, e.target.value);
+        onChangeMemo(e);
     }
 
     useEffect(() => {
-        const changer = (e) => {
-            const value = Number(e.target.value);
-            if (e.target.name === 'yLength') {
-                setSize((s) => { return { ...s, y: Math.abs(value) % (_gridMax + 1) } });
-            } else if (e.target.name === 'xLength') {
-                setSize((s) => { return { ...s, x: Math.abs(value) % (_gridMax + 1) } })
-            }
-            return onChangeMemo(e);
+        if (xInputRef.current) {
+            xInputRef.current.value = defaultSize.x.toString();
         }
-        changer(FauxEvent('yLength', defaultSize.y));
-        changer(FauxEvent('xLength', defaultSize.x));
+        if (yInputRef.current) {
+            yInputRef.current.value = defaultSize.y.toString();
+        }
+
+        const yValue = defaultSize.y;
+        const xValue = defaultSize.x;
+
+        updateSize('yLength', yValue.toString());
+        updateSize('xLength', xValue.toString());
+
+        onChangeMemo(FauxEvent('yLength', yValue));
+        onChangeMemo(FauxEvent('xLength', xValue));
     }, [defaultSize, onChangeMemo]);
 
-    return [
+    return (
         <label key={"gridSizer"} className={`gridSize ${className}`}>
             <p>Grid Size:</p>
             <span className="sliderVertical" >
-                <input name={"yLength"} key={"yLength"} type="range" min={1} max={_gridMax} step={1} value={size.y} onChange={onLocalChange} list="tickmarks"
-                    style={{ width: (4 + _gridMax) + 'vh' }} />
+                <input
+                    name={"yLength"}
+                    key={"yLength"} type="range"
+                    min={1}
+                    max={_gridMax}
+                    step={1}
+                    value={size.y}
+                    onChange={onLocalChange} list="tickmarks"
+                    style={{ width: (4 + _gridMax) + 'vh' }}
+                />
             </span>
             <span className="sliderHorizontal" >
-                <section className={"t123"} style={{ width: (_gridMax + 0.5).toString() + 'vh', height: _gridMax.toString() + 'vh' }}>
+                <section
+                    className={"t123"}
+                    style={{
+                        width: (_gridMax + 0.5).toString() + 'vh',
+                        height: _gridMax.toString() + 'vh'
+                    }}>
                     {maxGrid.map(n => maxGrid.map(m =>
                         <div
                             key={(_gridMax * (n - 1) + (m - 1)).toString()}
@@ -66,14 +94,24 @@ function GridSizeControl({ onChange, className, defaultSize }) {
                         </div>
                     ))}
                 </section>
-                <input name={"xLength"} key={"xLength"} type="range" min={1} max={_gridMax} step={1} value={size.x} onChange={onLocalChange} list="tickmarks"
-                    style={{ width: (2 + _gridMax) + 'vh' }} />
+                <input
+                    name={"xLength"}
+                    key={"xLength"}
+                    type="range"
+                    min={1}
+                    max={_gridMax}
+                    step={1}
+                    value={size.x}
+                    onChange={onLocalChange}
+                    list="tickmarks"
+                    style={{ width: (2 + _gridMax) + 'vh' }}
+                />
             </span>
             <datalist id="tickmarks">
                 {(maxGrid.map(n => (<option key={n.toString()} value={n} />)))}
             </datalist>
-        </label>,
-    ]
+        </label>);
+
 }//GridSizeControl
 
 export { GridSizeControl }
