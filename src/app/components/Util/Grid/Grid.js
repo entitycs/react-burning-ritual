@@ -1,9 +1,52 @@
 "use client";
-import React, { useReducer } from 'react';
 import './Grid.css';
+import React, { useReducer } from 'react';
+import { onSetGrid, gridOptionData } from "../grid";
 
-// const _gridMax = 6;
+const gridKeyCache = new Map();
+/**
+ * gridKey
+ * 
+ * Sets the grid keys and positions based on grid size
+ * 
+ * @param {number} lenX 
+ * @param {number} lenY 
+ * @returns {GridKey} Metadata for each grid item slot
+ */
+function _gridKey(lenX, lenY) {
+  checkSize(lenY, lenX);
+  const grid = [];
+  let keyId = 0;
+  const xMult = 100 / lenX; // rem
+  const yMult = 100 / lenY; // rem
 
+  for (let y = 0; y < lenY; y++) {
+    const row = Array.from({ length: lenX }, (_, x) => ({
+      keyId: keyId++,
+      top: y * yMult,
+      left: x * xMult,
+      occupants: []
+    }));
+    grid.push(row);
+  }
+
+  return grid;
+}
+function checkSize(x, y) {
+  if (x + y < 2) {
+    throw new Error('Invalid Grid size; must be >= 1x1');
+  }
+}
+
+function memoizedKey(lenX, lenY) {
+  const key = `${lenX},${lenY}`;
+  if (gridKeyCache.has(key)) {
+    return gridKeyCache.get(key);
+  }
+  const result = _gridKey(lenX, lenY);
+  gridKeyCache.set(key, result);
+  return result;
+}
 /**
  * Grid
  * 
@@ -17,66 +60,27 @@ import './Grid.css';
  * @param {{
  *   optionData: GridOptions, 
  *   form: React.JSXElementConstructor,
- *   onSetGrid: React.Reducer,
  *   children: React.JSXElementConstructor,
  * }} props
  * @returns {React.ReactComponentElement} Grid
  * 
- * @param {GridOptions} props.optionData - data used to initialize or resize the grid.
  * @param {React.JSXElementConstructor} props.form - for element for submissions to grid.
- * @param {React.Reducer} props.onSetGrid - reducer callback for grid state.
  * @param {React.JSXElementConstructor} props.children - grid item elements.
  */
-function Grid({ optionData, form, onSetGrid, children }) {
+function Grid({ form, children }) {
 
-  function checkSize(x, y) {
-    if (x + y < 2) {
-      throw new Error('Invalid Grid size; must be >= 1');
-    }
-  }
 
-  // let onSetGrid prop dispatch grid state, using optionData for initial state
+  // let onSetGrid prop dispatch grid state, using gridOptionData for initial state
   //  
   const [gridState, gridDispatch] = useReducer(
     onSetGrid,
     {
-      gridData: optionData.data,
-      gridKey: _gridKey(optionData.option.xLength, optionData.option.yLength),
-      gridOptions: optionData
+      gridData: gridOptionData.data,
+      gridKey: _gridKey(gridOptionData.option.xLength, gridOptionData.option.yLength),
+      gridOptions: gridOptionData
     }
   );
 
-  /**
-   * gridKey
-   * 
-   * Sets the grid keys and positions based on grid size
-   * 
-   * @param {number} lenX 
-   * @param {number} lenY 
-   * @returns {GridKey} Metadata for each grid item slot
-   */
-  function _gridKey(lenX, lenY) {
-    checkSize(lenY, lenX);
-    let grid = [];
-    let keyId = 0;
-    let xMult = 100 / lenX;//rem
-    let yMult = 100 / lenY;//rem
-    for (var y = 0; y < lenY; y++) {
-      let gridRow = [];
-      for (var x = 0; x < lenX; x++) {
-        gridRow.push({
-          keyId: keyId,
-          top: y * yMult,//lenY
-          left: x * xMult,//lenX
-          occupants: [] // may change from array to single value in near future
-        });
-        keyId++;
-      }
-      grid.push(gridRow);
-    }// endfor
-
-    return grid;
-  };// gridKey()
 
   /**
    * submitToGrid
@@ -94,7 +98,7 @@ function Grid({ optionData, form, onSetGrid, children }) {
     if (item.event) {
       if (item.event.newGrid) {
         let eventSize = item.event.newGrid;
-        item.event.newGrid = _gridKey(
+        item.event.newGrid = memoizedKey(
           eventSize.xLength ? eventSize.xLength : gridState.gridKey[0].length,
           eventSize.yLength ? eventSize.yLength : gridState.gridKey.length,
         );

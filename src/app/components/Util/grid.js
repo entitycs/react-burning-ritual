@@ -51,37 +51,7 @@ function getNextKeyId(gridState) {
   return gridAtKey.keyId;
 }
 
-/**
- * gridKey
- * 
- * Sets the grid keys and positions based on grid size
- * 
- * @param {number} lenX 
- * @param {number} lenY 
- * @returns {GridKey} Metadata for each grid item slot
- */
-function _gridKey(lenX, lenY) {
-  checkSize(lenY, lenX);
-  let grid = [];
-  let keyId = 0;
-  let xMult = 100 / lenX;
-  let yMult = 100 / lenY;
-  for (var y = 0; y < lenY; y++) {
-    let gridRow = [];
-    for (var x = 0; x < lenX; x++) {
-      gridRow.push({
-        keyId: keyId,
-        top: y * yMult,
-        left: x * xMult,
-        occupants: [] // may change from array to single value in near future
-      });
-      keyId++;
-    }
-    grid.push(gridRow);
-  }// endfor
 
-  return grid;
-};// gridKey()
 /**
  * onSetGrid
  * 
